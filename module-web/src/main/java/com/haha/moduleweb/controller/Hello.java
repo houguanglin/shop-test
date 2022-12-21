@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class Hello {
+    // todo 这里注入对象会失败
     @Autowired
     UserService userService;
 

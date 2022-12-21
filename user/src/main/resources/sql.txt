@@ -1,0 +1,15 @@
+-- 用户表信息
+create table if not exists shop.`user`
+(
+`id` bigint not null auto_increment comment '主键' primary key,
+`username` varchar(256) not null comment '用户名',
+`password` varchar(256) not null comment '密码',
+`gender` varchar(256) not null comment '性别',
+`address` varchar(256) not null comment '地址',
+`phone` varchar(256) not null comment '手机号',
+`age` varchar(256) not null comment '年龄'
+) comment '用户表信息';
+
+
+insert into shop.`user` (`username`, `password`, `gender`, `address`, `phone`, `age`) values ('蕾', 'password', '男', '廉江市', '15856841059', '91');
+insert into shop.`user` (`username`, `password`, `gender`, `address`, `phone`, `age`) values ('神宮寺奈緒', 'password', '男', '霸州市', '15797808340', '19');
