@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration status="WARN">
+
+    <Properties>
+        <!-- 配置日志文件输出目录，此配置将日志输出到工程目录下的log4j2_logs文件夹 -->
+        <Property name="LOG_HOME">log4j2_logs</Property>
+    </Properties>
+
+    <Appenders>
+        <!--这个输出控制台的配置，即System.out -->
+        <Console name="console_out_appender" target="SYSTEM_OUT">
+            <!-- 控制台只输出level及以上级别的信息(onMatch),其他的直接拒绝(onMismatch) . -->
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY" />
+            <!-- 输出日志的格式 -->
+            <PatternLayout pattern="%5p [%t] %d{yyyy-MM-dd HH:mm:ss} (%F:%L) %m%n" />
+        </Console>
+
+
+        <!-- 所有级别日志 -->
+        <RollingFile name="all_appender" immediateFlush="true" fileName="${LOG_HOME}/goods.log"
+                     filePattern="${LOG_HOME}/ziplog/goods - %d{yyyy-MM-dd HH:mm:ss}.log.gz">
+            <PatternLayout>
+                <pattern>%5p [%t] %d{yyyy-MM-dd HH:mm:ss} (%F:%L) %m%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50MB" />
+            </Policies>
+        </RollingFile>
+
+        <!-- ERROR级别日志 -->
+        <RollingFile name="error_appender" immediateFlush="true" fileName="${LOG_HOME}/error.log"
+                     filePattern="${LOG_HOME}/errorziplog/error - %d{yyyy-MM-dd HH:mm:ss}.log.gz">
+            <PatternLayout>
+                <pattern>%5p [%t] %d{yyyy-MM-dd HH:mm:ss} (%F:%L) %m%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="1MB" />
+            </Policies>
+            <Filters>
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+        </RollingFile>
+    </Appenders>
+
+    <loggers>
+        <!--过滤掉spring和hibernate的一些无用的debug信息-->
+        <logger name="org.springframework" level="INFO"></logger>
+        <logger name="org.mybatis" level="INFO"></logger>
+        <!--使appender生效-->
+        <!-- 配置日志的根节点 -->
+        <!-- 定义logger，只有定义了logger并引入了appender，appender才会生效 -->
+        <root level="trace">
+            <appender-ref ref="console_out_appender" />
+            <appender-ref ref="all_appender" />
+            <appender-ref ref="error_appender" />
+        </root>
+
+    </loggers>
+</configuration>
